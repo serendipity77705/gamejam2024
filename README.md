@@ -1,5 +1,5 @@
-# gamejam2025
+# Bubble Juice
 
-Group Bubble Juice's submission for the 2024 Global Game Jam
+Group Bubble Juice's submission for the 2025 Global Game Jam
 
 hello
