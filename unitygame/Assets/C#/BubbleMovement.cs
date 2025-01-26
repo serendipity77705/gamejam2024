@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class BubbleMovement : MonoBehaviour
 {
-    float speedX = 1f;
-    float speedY = 2f;
-    float directionX, directionY;
-    float timer = 0f;
+    float speedX, speedY;
+    public BubbleManager bubbleManager;
+    // public float defaultSpeedX = 0.5f;
+    // public float defaultSpeedY = 1f;
+    // public float speedX;
+    // public float speedY;
+    public float directionX, directionY;
+    // public float timer = 0f;
 
     Vector2 movementY = Vector2.up;
     Vector2 movementX = Vector2.right;
@@ -14,10 +18,16 @@ public class BubbleMovement : MonoBehaviour
 
     void Start()
     {
+        bubbleManager = FindObjectOfType<BubbleManager>();
+
+        speedX = bubbleManager.defaultSpeedX;
+        speedY = bubbleManager.defaultSpeedY;
+
         bubbleBody = GetComponent<Rigidbody2D>();
+
         // Start at the top of the screen, centered horizontally
         transform.position = new Vector3(0f, Camera.main.orthographicSize, 0f);
-        if (timer % 60 == 0){
+        if (bubbleManager.timer % 60 == 0){
             // if (Random.Range(0f, 1f) > 0.5){
                 transform.position = new Vector3(
                 Random.Range(
@@ -35,7 +45,7 @@ public class BubbleMovement : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        bubbleManager.timer += Time.deltaTime;
 
         if (Time.deltaTime % 60 == 30)
         {
@@ -51,8 +61,8 @@ public class BubbleMovement : MonoBehaviour
             directionY = 1;  // Always move upwards initially
         }
 
-        transform.Translate(movementX * directionX * speedX * Time.deltaTime);
-        transform.Translate(movementY * directionY * speedY * Time.deltaTime);
+        transform.Translate(movementX * directionX * bubbleManager.speedX * Time.deltaTime);
+        transform.Translate(movementY * directionY * bubbleManager.speedY * Time.deltaTime);
 
         if (transform.position.y > Camera.main.orthographicSize) 
         {
@@ -78,12 +88,13 @@ public class BubbleMovement : MonoBehaviour
         // }
 
 
-        if (timer >= 0.5f)
-        {
-            speedX += 0.1f;
-            speedY += 0.1f;
-            timer = 0f;
-        }
+        // if (bubbleManager.timer >= 2f)
+        // {
+        //     speedX += 5;
+        //     speedY += 5f;
+        //     bubbleManager.timer = 0f;
+        // }
+        
         // if (Random.Range(0f, 1f) > 0.999) // 1% chance to reverse direction for random behavior
         //     {
         //         directionX *= -1; // Reverse horizontal direction
@@ -93,9 +104,11 @@ public class BubbleMovement : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-        {
-            directionX *= -1;
-            directionY *= -1;
-        }
+    {
+        directionX *= -1;
+        directionY *= -1;
+    }
+
+    
 }
 
